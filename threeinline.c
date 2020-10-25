@@ -25,11 +25,11 @@ void lowest_matrix(int vector[3][3],int* Px,int* Py)/*Va bien*/
 			menor=vector[x][y];
 			*Py=y;
 			*Px=x;
-		}	
 		}
-				
+		}
+
 	}
-	
+
 }
 
 void lowest_number(int * vector, int l, int *p)/*Chequear*/
@@ -42,18 +42,18 @@ void lowest_number(int * vector, int l, int *p)/*Chequear*/
 			menor=vector[i];
 			*p=i;
 		}
-			
+
 	}
 }
 
 void set_board()/*BIEN*/
 {
 	ty table;
-	int x,y,dimension;/*valor es el número donde a partir se va a calcular la posicion de todo*/
+	int x,y,dimension;/*valor es el nï¿½mero donde a partir se va a calcular la posicion de todo*/
 	char character='+';
 	char	blank=' ';
-	dimension=dime*3+2;/*lo dividimos en tres partes para así poder trabajar*/
-	
+	dimension=dime*3+2;/*lo dividimos en tres partes para asï¿½ poder trabajar*/
+
 	for(y=0;y<dimension;y++){
 		for(x=0;x<dimension;x++){
 			if(x==dime+1|| x==(dime+1)*2 || y==dime+1 || y==(dime+1)*2)
@@ -62,7 +62,7 @@ void set_board()/*BIEN*/
 				table.matriz[x][y]=blank;
 		}
 	}
-	
+
 	dimension=3*dime+2;
 	system("cls");
 	for(y=0;y<dimension;y++)
@@ -70,7 +70,7 @@ void set_board()/*BIEN*/
 			gotoxy(x+Ox,y+Oy);
 			printf("%c",table.matriz[x][y]);
 		}
-	
+
 }
 
 void location_piece(char entrada,int * x,int *y)/*BIEN*/
@@ -78,7 +78,7 @@ void location_piece(char entrada,int * x,int *y)/*BIEN*/
 	int Ix,Iy;
 	Ix= *x;
 	Iy= *y;
-	
+
 	switch(entrada){
 		case '1':
 			Ix=Ox;
@@ -115,9 +115,9 @@ void location_piece(char entrada,int * x,int *y)/*BIEN*/
 		case '9':
 			Ix=Ox+(dime+1)*2+1;
 			Iy=Oy+(dime+1)*2+1;
-			break;	
+			break;
 		default:
-			break;	
+			break;
 		}
 	*x=Ix;
 	*y=Iy;
@@ -130,14 +130,14 @@ void print_X(int Ix,int Iy)/*BIEN*/
 /*primero la X*/
 	for(i=0;i<dime;i++){
 		for(k=0;k<dime;k++){
-			
+
 			if(i-k==0 || i+k==6)
 				mat[k][i]='*';
-			else 
+			else
 				mat[k][i]=' ';
 		}
 	}
-	
+
 	i=0;
 	k=i;
 	for(y=Iy;y<dime+Iy;y++){
@@ -150,7 +150,7 @@ void print_X(int Ix,int Iy)/*BIEN*/
 		i=0;
 		k++;
 	}
-	
+
 }
 
 void print_O(int Ix,int Iy)/*BIEN*/
@@ -175,7 +175,7 @@ void print_O(int Ix,int Iy)/*BIEN*/
 					default:
 						if(i==0 || i==6)
 						mat[i][k]='*';
-						break;	
+						break;
 				}
 				}
 			}/*salir del for*/
@@ -202,53 +202,54 @@ void print_piece(char p, int Ix,int Iy)/*REGULAR*/
 		print_O(Ix,Iy);
 }
 
-int winner(jugar set)/*revisar!!!*/
+int winner(jugar set)/*It counts the number of consecutive equal pieces*/
 {
 	int x,y,i,machine=0,human=0;
-/*empezamos chequeando las horizontales*/
+/*checks the horizontal lines*/
+/*to avoid errors while counting, it is reseted the values*/
 for(y=0;y<3;y++){
 	machine=0;
 	human=0;
 	for(x=0;x<3;x++){
 		i=3*y+x;
-		if(set.vector[i]!=' '){	
+		if(set.vector[i]!=' '){
 				if(set.vector[i]==set.machine_piece)
 					machine++;
 				else if(set.vector[i]==set.player_piece)
 					human++;
-														
+
 				if(machine==3)
 					return 2;
 				else if(human==3)
-					return 1;/*da el lugar donde se deberá poner la pieza*/
+					return 1;/*da el lugar donde se deberï¿½ poner la pieza*/
 			}
-	}		
+	}
 }
 
-	
-	/*chequeando las verticales*/
+
+	/*checks the vertical lines*/
 for(x=0;x<3;x++){
 	machine=0;
 	human=0;
 	for(y=0;y<7;y+=3){
 		if(set.vector[x+y]!=' ')
-			{	
+			{
 				if(set.vector[x+y]==set.machine_piece)
 					machine++;
 				else if(set.vector[x+y]==set.player_piece)
-					human++;	
-							
+					human++;
+
 				if(machine==3)
 					return 2;
 				else if(human==3)
-					return 1;/*da el lugar donde se deberá poner la pieza*/
+					return 1;/*da el lugar donde se deberï¿½ poner la pieza*/
 			}
 	}
 }
 	machine=0;
 	human=0;
-	/*chequear las dos diagonales*/
-	/*pero primero la de pendiente positiva*/
+	/*diagonals*/
+	/*the first one*/
 	for(i=2;i<7;i+=2){
 		if(set.vector[i]!=' ')
 		{
@@ -259,13 +260,13 @@ for(x=0;x<3;x++){
 			if(machine==3)
 				return 2;
 			if(human==3)
-				return 1;/*vacio es donde la máquina tiene que poner la pieza*/
+				return 1;
 		}
 	}
-	
+	/*to avoid errors while counting, it is reseted the values*/
 	machine=0;
 	human=0;
-	/*diagonal de pendiente negativa*/
+	/*the other diagonal*/
 	for(i=0;i<9;i+=4){
 		if(set.vector[i]!=' ')
 		{
@@ -276,19 +277,19 @@ for(x=0;x<3;x++){
 			if(machine==3)
 				return 2;
 			if(human==3)
-				return 1;/*vacio es donde la máquina tiene que poner la pieza*/
+				return 1;/*vacio es donde la mï¿½quina tiene que poner la pieza*/
 		}
 	}
-	
+
 	machine=0;
-	human=0;	
+	human=0;
 	for(i=0;i<9;i++){
 		if(set.vector[i]!=' ')
 				machine++;
 		if(machine==9)
 			return 3;
 	}
-		
+
 	return 0;
 }
 
@@ -297,90 +298,95 @@ void example_table()
 {
 	int x,y,j=1,k,u;
 	char borde='+';
-	
+
 	for(y=0;y<5;y++){
 		for(x=0;x<5;x++){
 			k=x%2;
 			u=y%2;
-			if(k==0 && u==0){	
+			if(k==0 && u==0){
 				if(x==4)
 				   printf("%d\n",j);
 				else
 				   printf("%d%c",j,borde);
-				   
+
 				j++;
-				
+
 			}else{
 				if(u!=0)
 				printf("%c",borde);
 				if(x==4)
 				printf("\n");
 			}
-				
+
 		}
    }
-   
+
 }
 
 
 void tic_toe(void)
 {
-	jugar player;
-	char basura;
+	/*Main function wheere everything runs*/
+	jugar player;/*structre where the piece of the player and the vector (where the machine will read the information) are stored*/
+	char basura;/*it is used to clean the input*/
 	int sel,i,j,k,x,y,dice;
 	srand(time(0));
+	/*to avoid the same player to start playing, it is set a random funtion*/
 	do{
 		dice=rand()%3;
-	}while(dice>1);		
-	
-	printf("Tic-Tac-Toe\n");
+	}while(dice>1);
+
+	printf("Tic-Tac-Toe\n");/*asks the player what they want to play*/
 	do{
 	printf("Please choose the gamemode:\n1.-1vs1\n2.-Solo\n");
 	scanf("%d",&sel);
-	
-	if(sel==1){
+
+	if(sel==1){/*if it is selected th 1vs1 it executes the following code*/
 		system("cls");
 		printf("Instructions:\nYou can only use the numbers from 1 to 9 to select were you want to put your piece\nHere it is an example of each position\n");
 	   example_table();
-	for(i=0;i<9;i++)/*pone en blanco toda la matriz de juego*/
+	for(i=0;i<9;i++)/*to avoid problems, it saves a blank space in  each position*/
 		player.vector[i]=' ';
-	
+
 	/*Makes the user selec their piece for the game*/
- 		menu_1vs1(&player);/*chequear*/
+ 		menu_1vs1(&player);
 		system("cls");
-	
+
 	/*It starts the game*/
 		printf("To end the game press 0\n");
 		set_board();/*set the board for the game and prints it*/
 		fflush(stdin);
-		teams(&player,dice);/*chequear*/
-		
+		/*the 1vs1 game*/
+		teams(&player,dice);
+
 	}else if(sel==2){
+		/*The second option, Against the machine*/
 		system("cls");
 		printf("Instructions:\nYou can only use the numbers from 1 to 9 to select were you want to put your piece\nHere it is an example of each position\n");
 	example_table();
-	for(i=0;i<9;i++)/*pone en blanco toda la matriz de juego*/
+	for(i=0;i<9;i++)/*it cleans the matrix*/
 		player.vector[i]=' ';
-	
+
 	/*Makes the user selec their piece for the game*/
 	menu(&player);
 	system("cls");
-	
+
 	/*It starts the game*/
 	printf("To end the game press 0\n");
 	set_board();/*set the board for the game and prints it*/
 	fflush(stdin);
-	
-	play(&player,dice);
-	
-	}		
+
+	play(&player,dice);/*the against machine game*/
+
+	}
+	/*if the option is not 1 or 2, it shows an error message*/
 	if(sel<1 || sel>2)
 		printf("\nThat option does not exist, choose again\n");
-		
-	}while(sel<1 || sel>2);
+
+	}while(sel<1 || sel>2);/*closes the first while*/
 
 
-	
+
 
 	do{
 	system("cls");
@@ -388,82 +394,82 @@ void tic_toe(void)
 	scanf("%d",&i);
 	if(i<1 || i>2)
 		printf("Incorrect answer\n");
-		
+
 	}while(i<1 || i>2);
 
 	if(i==1){
 		system("cls");
 		tic_toe();
 	}
-		
-	
+
+
 }
 
-void teams(jugar* p, int sel)/*REVISAR, error masivo!!*/
+void teams(jugar* p, int sel)/*1vs1 player entire game*/
 {
 	int flag=0,choice=0,x,y,player1=0,player2=0,i,fix=0;
 	char desicion='0',basura;
 	jugar set;
 	set=*p;
-	
+
 	for(i=0;i<9;i++){
 		set.vector[i]=' ';
 	}
-	
+
 	if(sel==1){
-		/*Va la máquina*/
+		/*player nÂº2 starts*/
 		gotoxy(0,0);
 			printf("                                               \n                                                      ");
 			gotoxy(0,0);
 		printf("Player 2 starts\nChoose where do you want to start\n");
 		do{
 			if(kbhit()==1){
-			desicion=getch(stdin);	
+				/*if a key is pressed it saves it in desicion*/
+			desicion=getch(stdin);
 			if(desicion>'0'&& desicion<='9'){
-			/*revisar*/
-			choice=desicion-'1';
-			set.vector[choice]=set.machine_piece;
+			choice=desicion-'1';/*translate teh char to int*/
+			set.vector[choice]=set.machine_piece;/*put the piece of player 2 in the position =choice*/
 			location_piece(desicion,&x,&y);
 			print_piece(set.machine_piece,x,y);/*este no problema*/
-			
 			}
-			
+
 			fflush(stdin);
-		}
-		}while(desicion<='0'|| desicion > '9');
-		player2=0;	
+			}
+		}while(desicion<='0'|| desicion > '9');/*it keeps running until the position is valid*/
+		/*set who is next*/
+		player2=0;
 		player1=1;
-	}/*hasta aquí es el inicio*/
-	/*esta parte se corre al principio del juego y no se vuelve a correr más*/
+	}/*end of if(sel==1)*/
+
+	/*If the player nÂº1 starts first*/
 	if(sel==0)
-	{/*Va el jugador*/
+	{/*it is almost equal to the one before, for player 2*/
 		gotoxy(0,0);
 		printf("                                               \n                                                      ");
 		gotoxy(0,0);
 		printf("Player 1 starts\nChoose where do you want to start\n");
 		do{
 			if(kbhit()==1){
-			desicion=getch(stdin);	
+			desicion=getch(stdin);
 			if(desicion>'0'&& desicion<='9'){
-			/*revisar*/
 			choice=desicion-'1';
 			set.vector[choice]=set.player_piece;
 			location_piece(desicion,&x,&y);
-			print_piece(set.player_piece,x,y);/*este no problema*/
-			
+			print_piece(set.player_piece,x,y);
+
 			}
-			
+
 			fflush(stdin);
 		}
 		}while(desicion<='0'|| desicion > '9');
-		player2=1;	
+		player2=1;
 		player1=0;
-	}
+	}/*ende of sel==0/
 
-	
-	
+
+
 	/*REVISAR*/
-	do{	
+	do{
 	if(player1==1){
 		if(fix==0){
 		gotoxy(0,0);
@@ -472,7 +478,7 @@ void teams(jugar* p, int sel)/*REVISAR, error masivo!!*/
 		printf("Player 1 turn.\nChoose a position:");
 		fix=1;
 		}
-		
+
 		if(kbhit()==1){/*introduces when a player have to select a position*/
 		desicion=getch(stdin);
 		if(desicion>'0'&& desicion<='9'){
@@ -496,7 +502,7 @@ void teams(jugar* p, int sel)/*REVISAR, error masivo!!*/
 		}
 		fflush(stdin);
 		}
-	
+
 	}else if(player2==1){/*REVISAR*/
 		if(fix==0){
 			gotoxy(0,0);
@@ -505,11 +511,11 @@ void teams(jugar* p, int sel)/*REVISAR, error masivo!!*/
 		printf("Player 2 turn.\nChoose a position:");
 		fix=1;
 		}
-		
+
 		if(kbhit()==1){/*introduces when a player have to select a position*/
 		desicion=getch(stdin);
 		if(desicion>'0'&& desicion<='9'){
-			choice=desicion-'1';/*revisar*/
+			choice=desicion-'1';/*from char to int*/
 			if(set.vector[choice]==' '){
 				fflush(stdin);
 				set.vector[choice]=set.machine_piece;
@@ -525,23 +531,23 @@ void teams(jugar* p, int sel)/*REVISAR, error masivo!!*/
 				gotoxy(0,0);
 				printf("There is already a piece, choose again\n");
 			}
-		/*problem with this function*/
+
 		}
 		fflush(stdin);
 		}
 	}
-	
-	/*AHORA DEBERÍA IR BIEN*/
-	flag=winner(set);
-		/*falta acabar el juego*/
-	}while(flag==0);
 
+	flag=winner(set);/*did someone won?*/
+
+	}while(flag==0);/*end of the do while*/
+/*who won?*/
 	*p=set;
 	gotoxy(0,0);
     printf("                                               \n                                                      ");
 	gotoxy(0,0);
+	/*it prints who won*/
 	if(flag==3)
-		printf("A tie\n");	
+		printf("A tie\n");
 	if(flag==1)
 		printf("Player 1 wins\n");
 	if(flag==2)
@@ -556,13 +562,13 @@ void play(jugar* p, int sel)/*REVISAR, error masivo!!*/
 	char desicion='0',basura;
 	jugar set;
 	set=*p;
-	
+
 	for(i=0;i<9;i++){
 		set.vector[i]=' ';
 	}
-	
+
 	if(sel==1){
-		/*Va la máquina*/
+		/*Va la mï¿½quina*/
 		gotoxy(0,0);
    		 printf("                                               \n                                                      ");
 		gotoxy(0,0);
@@ -573,8 +579,8 @@ void play(jugar* p, int sel)/*REVISAR, error masivo!!*/
 			location_piece(desicion,&x,&y);
 			print_piece(set.machine_piece,x,y);
 		player=1;
-	}/*hasta aquí es el inicio*/
-	/*esta parte se corre al principio del juego y no se vuelve a correr más*/
+	}/*hasta aquï¿½ es el inicio*/
+	/*esta parte se corre al principio del juego y no se vuelve a correr mï¿½s*/
 	if(sel==0)
 	{/*Va el jugador*/
 		gotoxy(0,0);
@@ -583,28 +589,28 @@ void play(jugar* p, int sel)/*REVISAR, error masivo!!*/
 		printf("Player goes first\nChoose where to start:\n");
 		do{
 			if(kbhit()==1){
-			desicion=getch(stdin);	
+			desicion=getch(stdin);
 			if(desicion>'0'&& desicion<='9'){
 			/*revisar*/
 			choice=desicion-'1';
 			set.vector[choice]=set.player_piece;
 			location_piece(desicion,&x,&y);
 			print_piece(set.player_piece,x,y);/*este no problema*/
-			
+
 			}
-			
+
 			fflush(stdin);
 		}
 		}while(desicion<='0'|| desicion > '9');
-		machine=1;	
+		machine=1;
 		player=0;
 		fix=1;
 	}
 
-	
-	
+
+
 	/*REVISAR*/
-	do{	
+	do{
 	if(player==1){
 		if(fix==0){
 		gotoxy(0,0);
@@ -613,7 +619,7 @@ void play(jugar* p, int sel)/*REVISAR, error masivo!!*/
 		printf("Select a position");
 		fix=1;
 		}
-		
+
 		if(kbhit()==1){/*introduces when a player have to select a position*/
 		desicion=getch(stdin);
 		if(desicion>'0'&& desicion<='9'){
@@ -637,18 +643,18 @@ void play(jugar* p, int sel)/*REVISAR, error masivo!!*/
 		}
 		fflush(stdin);
 		}
-	
+
 	}else if(machine==1){/*REVISAR*/
-		
-		
+
+
 		choice=rule_1(set);
-		
+
 		if(choice==11)
 		choice=rule_2(set);
-		
+
 		if(choice==12)
-		choice=rule_3(set);		
-			
+		choice=rule_3(set);
+
 		set.vector[choice]=set.machine_piece;
 		desicion=choice + '1';
 		location_piece(desicion,&x,&y);
@@ -657,18 +663,18 @@ void play(jugar* p, int sel)/*REVISAR, error masivo!!*/
 		player=1;
 		machine=0;
 	}
-	
-	/*AHORA DEBERÍA IR BIEN*/
+
+	/*AHORA DEBERï¿½A IR BIEN*/
 	flag=winner(set);
 		/*falta acabar el juego*/
 	}while(flag==0);
-	
+
 	*p=set;
 	gotoxy(0,0);
     printf("                                               \n                                                      ");
 	gotoxy(0,0);
 	if(flag==3)
-		printf("A tie\n");	
+		printf("A tie\n");
 	if(flag==1)
 		printf("Player wins\n");
 	if(flag==2)
@@ -681,24 +687,24 @@ void menu_1vs1(jugar* selec)/*BIEN*/
 	jugar d;
 	int des;
 	d= *selec;
-	printf("\nPlease player nº1 select your piece:\n1.-X\n2.-O\n");
+	printf("\nPlease player nï¿½1 select your piece:\n1.-X\n2.-O\n");
 	do{
 	fflush(stdin);
 	scanf("%d",&des);
 	des--;
-	
+
 	if(des==0){
-		d.player_piece='X';	
+		d.player_piece='X';
 		d.machine_piece='O';
 	}else if(des==1){
 		d.player_piece='O';
 		d.machine_piece='X';
 	}
-		
-		
+
+
 	if(des!=1 && des!=0)
 		printf("Error, Please select a valid option\n");
-		
+
 }while(des!=1 && des!=0);
 
 	*selec=d;
@@ -714,53 +720,53 @@ void menu(jugar* selec)/*BIEN*/
 	fflush(stdin);
 	scanf("%d",&des);
 	des--;
-	
+
 	if(des==0){
-		d.player_piece='X';	
+		d.player_piece='X';
 		d.machine_piece='O';
 	}else if(des==1){
 		d.player_piece='O';
 		d.machine_piece='X';
 	}
-		
-		
+
+
 	if(des!=1 && des!=0)
 		printf("Error, Please select a valid option\n");
-		
+
 }while(des!=1 && des!=0);
 
 	*selec=d;
 }
 
-int rule_1(jugar set)/*devuelve 11 sí no encontró donde poner pieza, y si funciona devuelve la posición dentro del vector*/
+int rule_1(jugar set)/*devuelve 11 sï¿½ no encontrï¿½ donde poner pieza, y si funciona devuelve la posiciï¿½n dentro del vector*/
 {
 	int x,y,i,contador=0,dos=0,vacio;
-	
+
 /*empezamos chequeando las horizontales*/
 	for(y=0;y<7;y+=3){
 		contador=0;
 		dos=0;
 		for(x=0;x<3;x++){
 		if(set.vector[x+y]!=set.player_piece)
-			{	
+			{
 				contador++;
 				if(set.vector[x+y]==set.machine_piece)
 					dos++;
 				if(set.vector[x+y]==' ')
-					vacio=x+y;				
+					vacio=x+y;
 				if(contador==3 && dos==2)
-					return vacio;/*da el lugar donde se deberá poner la pieza*/
+					return vacio;/*da el lugar donde se deberï¿½ poner la pieza*/
 			}
-		}		
+		}
 	}
-	
+
 	/*chequeando las verticales*/
-for(x=0;x<3;x++){	
+for(x=0;x<3;x++){
 	contador=0;
 	dos=0;
 			for(y=0;y<7;y+=3){
 		if(set.vector[x+y]!=set.player_piece)
-			{	
+			{
 				contador++;
 				if(set.vector[x+y]==set.machine_piece)
 					dos++;
@@ -771,7 +777,7 @@ for(x=0;x<3;x++){
 			}/*if*/
 		}/*for y*/
 }
-	
+
 	dos=0;
 	contador=0;
 	/*chequear las dos diagonales*/
@@ -785,10 +791,10 @@ for(x=0;x<3;x++){
 			if(set.vector[i]==' ')
 				vacio=i;
 			if(contador==3 && dos==2)
-				return vacio;/*vacio es donde la máquina tiene que poner la pieza*/
+				return vacio;/*vacio es donde la mï¿½quina tiene que poner la pieza*/
 		}
 	}
-	
+
 	dos=0;
 	contador=0;
 	/*diagonal de pendiente negativa*/
@@ -801,56 +807,56 @@ for(x=0;x<3;x++){
 			if(set.vector[i]==' ')
 				vacio=i;
 			if(contador==3 && dos==2)
-				return vacio;/*vacio es donde la máquina tiene que poner la pieza*/
+				return vacio;/*vacio es donde la mï¿½quina tiene que poner la pieza*/
 		}
 	}
-		
-	vacio=11;/*este valor representa que no se consiguió ganar*/
-	return vacio;	
-	
+
+	vacio=11;/*este valor representa que no se consiguiï¿½ ganar*/
+	return vacio;
+
 }
 
-int rule_2(jugar set)/*devuelve 13 sí no encontró donde poner pieza, y si funciona devuelve la posición dentro del vector*/
+int rule_2(jugar set)/*devuelve 13 sï¿½ no encontrï¿½ donde poner pieza, y si funciona devuelve la posiciï¿½n dentro del vector*/
 {
 	int x,y,i,contador=0,vacio=0,dos=0;
-	
+
 /*empezamos chequeando las horizontales*/
 	for(y=0;y<7;y+=3){
 		contador=0;
 		dos=0;
 		for(x=0;x<3;x++){
 		if(set.vector[x+y]!=set.machine_piece)
-			{	
+			{
 				contador++;
 				if(set.vector[x+y]==set.player_piece)
 					dos++;
 				if(set.vector[x+y]==' ')
-					vacio=x+y;				
+					vacio=x+y;
 				if(contador==3 && dos==2)
-					return vacio;/*da el lugar donde se deberá poner la pieza*/
+					return vacio;/*da el lugar donde se deberï¿½ poner la pieza*/
 			}
 		}
 	}
-	
-	
+
+
 /*chequeando las verticales*/
 	for(x=0;x<3;x++){
 		contador=0;
 		dos=0;
 		for(y=0;y<9;y+=3){
 		if(set.vector[x+y]!=set.machine_piece)
-			{	
+			{
 				contador++;
 				if(set.vector[x+y]==set.player_piece)
 					dos++;
 				if(set.vector[x+y]==' ')
-					vacio=x+y;				
+					vacio=x+y;
 				if(contador==3 && dos==2)
-					return vacio;/*da el lugar donde se deberá poner la pieza*/
+					return vacio;/*da el lugar donde se deberï¿½ poner la pieza*/
 		}
 	}
 	}
-		
+
 	dos=0;
 	contador=0;
 	/*chequear las dos diagonales*/
@@ -864,7 +870,7 @@ int rule_2(jugar set)/*devuelve 13 sí no encontró donde poner pieza, y si funcio
 			if(set.vector[i]==' ')
 				vacio=i;
 			if(contador==3 && dos==2)
-				return vacio;/*vacio es donde la máquina tiene que poner la pieza*/
+				return vacio;/*vacio es donde la mï¿½quina tiene que poner la pieza*/
 		}
 	}
 	/*diagonal de pendiente negativa*/
@@ -879,11 +885,11 @@ int rule_2(jugar set)/*devuelve 13 sí no encontró donde poner pieza, y si funcio
 			if(set.vector[i]==' ')
 				vacio=i;
 			if(contador==3 && dos==2)
-				return vacio;/*vacio es donde la máquina tiene que poner la pieza*/
+				return vacio;/*vacio es donde la mï¿½quina tiene que poner la pieza*/
 		}
 	}
-		
-	vacio=12;/*este valor representa que no se consiguió ganar*/
+
+	vacio=12;/*este valor representa que no se consiguiï¿½ ganar*/
 	return vacio;
 }
 
@@ -895,14 +901,14 @@ int rule_3(jugar set)/*BIEN*/
 	for(i=0;i<9;i++){
 		pos[i]=0;
 	}
-	
 
-	/*genera un vector de valor numérico qeu guarda las posiciones de donde están los espacios en blanco*/
+
+	/*genera un vector de valor numï¿½rico qeu guarda las posiciones de donde estï¿½n los espacios en blanco*/
 	for(i=0;i<9;i++){
-		if(set.vector[i]==' '){ /*esto es una pieza*/	
+		if(set.vector[i]==' '){ /*esto es una pieza*/
 			pos[k]=i;
 			k++;
-		}		
+		}
 	}
 	/*genera la matriz*/
 	printf("\n");
@@ -997,18 +1003,17 @@ int rule_3(jugar set)/*BIEN*/
 				if(mat[1][2]==9)
 					suma++;
 				mat[2][2]=suma;
-				break;	
-				
+				break;
+
 		}
-		
+
 	}
 }
 
 	/*Hay que chequear lo de los valores y elegir el de menor valor*/
-	/*crear función que te diga la posicion del número mas bajo
-	por ahora lo más sencillo es que elija el primero que se encuentre, ya depués agregaré estados que me permitan elegir una mejor opción entre los libres*/
+	/*crear funciï¿½n que te diga la posicion del nï¿½mero mas bajo
+	por ahora lo mï¿½s sencillo es que elija el primero que se encuentre, ya depuï¿½s agregarï¿½ estados que me permitan elegir una mejor opciï¿½n entre los libres*/
 	lowest_matrix(mat,&x,&y);
-		
+
 	return 3*y+x;
 }
-
